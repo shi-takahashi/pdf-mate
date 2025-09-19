@@ -6,10 +6,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import '../services/ad_service.dart';
 
 class PdfViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
+  InterstitialAd? _interstitialAd;
+  bool _isAdReady = false;
   
   // Method Channel for native PDF operations
   static const MethodChannel _channel = MethodChannel('pdf_merge_channel');
@@ -32,6 +36,30 @@ class PdfViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // インタースティシャル広告の読み込み
+  Future<void> _loadInterstitialAd() async {
+    _interstitialAd = await AdService.createInterstitialAd();
+    _isAdReady = _interstitialAd != null;
+  }
+
+  // インタースティシャル広告の表示
+  Future<void> _showInterstitialAd({Function()? onComplete}) async {
+    if (_isAdReady && _interstitialAd != null) {
+      await AdService.showInterstitialAd(
+        _interstitialAd,
+        onAdDismissed: () {
+          _isAdReady = false;
+          _interstitialAd = null;
+          onComplete?.call();
+          // 次の広告をプリロード
+          _loadInterstitialAd();
+        },
+      );
+    } else {
+      onComplete?.call();
+    }
+  }
+
   Future<String> mergepdfs(List<File> pdfFiles, {bool shareAfterSave = true}) async {
     if (pdfFiles.length < 2) {
       throw Exception('結合するには2つ以上のPDFファイルが必要です');
@@ -41,6 +69,9 @@ class PdfViewModel extends ChangeNotifier {
     clearError();
 
     try {
+      // 広告をプリロード
+      await _loadInterstitialAd();
+      
       String? mergedPath;
       
       // Androidの場合はnative PDF結合を試す
@@ -56,7 +87,6 @@ class PdfViewModel extends ChangeNotifier {
           });
           
         } catch (e) {
-          print('Native PDF merge failed: $e, falling back to Syncfusion');
           // フォールバックとしてSyncfusionを使用
           mergedPath = await _mergePdfsWithSyncfusion(pdfFiles, shareAfterSave: shareAfterSave);
         }
@@ -65,6 +95,9 @@ class PdfViewModel extends ChangeNotifier {
         mergedPath = await _mergePdfsWithSyncfusion(pdfFiles, shareAfterSave: shareAfterSave);
       }
 
+      // 処理完了後にインタースティシャル広告を表示
+      await _showInterstitialAd();
+      
       return mergedPath!;
 
     } catch (e) {
@@ -143,13 +176,19 @@ class PdfViewModel extends ChangeNotifier {
     clearError();
     
     try {
+      // 広告をプリロード
+      await _loadInterstitialAd();
+      
       // Androidの場合はネイティブ分割を試す
       if (Platform.isAndroid) {
         try {
           List<String> savedPaths = await _splitPdfByPagesNative(pdfFile, pagesPerSplit, shareAfterSave: shareAfterSave);
+          
+          // 処理完了後にインタースティシャル広告を表示
+          await _showInterstitialAd();
+          
           return savedPaths;
         } catch (e) {
-          print('Native PDF split failed: $e, falling back to Syncfusion');
           // フォールバック処理に続く
         }
       }
@@ -217,6 +256,9 @@ class PdfViewModel extends ChangeNotifier {
         );
       }
       
+      // 処理完了後にインタースティシャル広告を表示
+      await _showInterstitialAd();
+      
       return splitFiles.map((xFile) => xFile.path).toList();
       
     } catch (e) {
@@ -233,13 +275,14 @@ class PdfViewModel extends ChangeNotifier {
     clearError();
     
     try {
+      // 広告をプリロード
+      await _loadInterstitialAd();
       // Androidの場合はネイティブ分割を試す
       if (Platform.isAndroid) {
         try {
           String savedPath = await _splitPdfByRangeNative(pdfFile, startPage, endPage, shareAfterSave: shareAfterSave);
           return savedPath;
         } catch (e) {
-          print('Native PDF split by range failed: $e, falling back to Syncfusion');
           // フォールバック処理に続く
         }
       }
@@ -295,6 +338,9 @@ class PdfViewModel extends ChangeNotifier {
         );
       }
       
+      // 処理完了後にインタースティシャル広告を表示
+      await _showInterstitialAd();
+      
       return extractedPath;
       
     } catch (e) {
@@ -331,13 +377,18 @@ class PdfViewModel extends ChangeNotifier {
     clearError();
     
     try {
+      // 広告をプリロード
+      await _loadInterstitialAd();
       // Androidの場合はネイティブ圧縮を試す
       if (Platform.isAndroid) {
         try {
           String savedPath = await _compressPdfNative(pdfFile, compressionLevel, shareAfterSave: shareAfterSave);
+          
+          // 処理完了後にインタースティシャル広告を表示
+          await _showInterstitialAd();
+          
           return savedPath;
         } catch (e) {
-          print('Native PDF compress failed: $e, falling back to Syncfusion');
           // フォールバック処理に続く
         }
       }
@@ -397,6 +448,9 @@ class PdfViewModel extends ChangeNotifier {
         );
       }
       
+      // 処理完了後にインタースティシャル広告を表示
+      await _showInterstitialAd();
+      
       return compressedPath;
       
     } catch (e) {
@@ -432,7 +486,6 @@ class PdfViewModel extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print('PDF optimization failed: $e');
       // 最適化に失敗しても圧縮処理は続行
     }
   }

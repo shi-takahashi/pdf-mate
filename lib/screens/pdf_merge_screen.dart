@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../viewmodels/pdf_viewmodel.dart';
 import 'dart:io';
 import 'pdf_simple_selector_screen.dart';
+import '../widgets/banner_ad_widget.dart';
 
 class PdfMergeScreen extends StatefulWidget {
   @override
@@ -27,7 +28,11 @@ class _PdfMergeScreenState extends State<PdfMergeScreen> {
       ),
       body: Column(
         children: [
-          Container(
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
             width: double.infinity,
             padding: EdgeInsets.all(16),
             margin: EdgeInsets.all(16),
@@ -65,11 +70,9 @@ class _PdfMergeScreenState extends State<PdfMergeScreen> {
             ),
           ),
           
-          Expanded(
-            child: selectedFiles.isEmpty 
-              ? _buildEmptyState()
-              : _buildFileList(),
-          ),
+          selectedFiles.isEmpty 
+            ? _buildEmptyState()
+            : _buildFileList(),
           
           Container(
             padding: EdgeInsets.all(16),
@@ -145,16 +148,28 @@ class _PdfMergeScreenState extends State<PdfMergeScreen> {
               ],
             ),
           ),
+                ],
+              ),
+            ),
+          ),
+          // バナー広告
+          Container(
+            color: Colors.grey[100],
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: const BannerAdWidget(),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+    return Container(
+      height: 200,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
           Icon(
             Icons.folder_open,
             size: 64,
@@ -178,13 +193,16 @@ class _PdfMergeScreenState extends State<PdfMergeScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildFileList() {
-    return ListView.builder(
+    return Container(
+      height: 300,
+      child: ListView.builder(
       padding: EdgeInsets.all(16),
       itemCount: selectedFiles.length,
       itemBuilder: (context, index) {
@@ -232,6 +250,7 @@ class _PdfMergeScreenState extends State<PdfMergeScreen> {
           ),
         );
       },
+      ),
     );
   }
 

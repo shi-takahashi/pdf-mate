@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pdf_merge_screen.dart';
 import 'pdf_split_screen.dart';
 import 'pdf_compress_screen.dart';
+import '../widgets/banner_ad_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -13,10 +14,13 @@ class HomeScreen extends StatelessWidget {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
             SizedBox(height: 40),
             Icon(
               Icons.picture_as_pdf,
@@ -76,8 +80,17 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => PdfCompressScreen()),
               ),
             ),
-          ],
-        ),
+                ],
+              ),
+            ),
+          ),
+          // バナー広告
+          Container(
+            color: Colors.grey[100],
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: const BannerAdWidget(),
+          ),
+        ],
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../viewmodels/pdf_viewmodel.dart';
+import '../widgets/banner_ad_widget.dart';
 
 class PdfCompressScreen extends StatefulWidget {
   @override
@@ -323,9 +324,12 @@ class _PdfCompressScreenState extends State<PdfCompressScreen> {
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // PDFファイル選択セクション
@@ -520,7 +524,16 @@ class _PdfCompressScreenState extends State<PdfCompressScreen> {
               ),
             ],
           ],
-        ),
+                ),
+              ),
+            ),
+          // バナー広告
+          Container(
+            color: Colors.grey[100],
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: const BannerAdWidget(),
+          ),
+        ],
       ),
     );
   }

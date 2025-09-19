@@ -6,7 +6,10 @@
       "Bash(flutter clean:*)",
       "Bash(flutter analyze:*)",
       "Bash(flutter build:*)",
-      "Bash(q)"
+      "Bash(q)",
+      "Bash(killall:*)",
+      "Bash(flutter:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
