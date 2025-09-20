@@ -16,7 +16,8 @@
       "Bash(pip3 install:*)",
       "Bash(ls:*)",
       "Bash(find:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(keytool:*)"
     ],
     "deny": []
   }
