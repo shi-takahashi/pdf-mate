@@ -1,6 +1,6 @@
 # Privacy Policy for PDF Mate
 
-Last updated: January 20, 2025
+Last updated: September 20, 2025
 
 ## Introduction
 
@@ -50,13 +50,13 @@ We may update our Privacy Policy from time to time. You are advised to review th
 ## Contact Us
 
 If you have any questions about this Privacy Policy, please contact us at:
-- GitHub: [https://github.com/shi-takahashi/pdf-mate](https://github.com/shi-takahashi/pdf-mate)
+- fdks487351@yahoo.co.jp
 
 ---
 
 # プライバシーポリシー - PDF Mate
 
-最終更新日: 2025年1月20日
+最終更新日: 2025年9月20日
 
 ## はじめに
 
@@ -106,4 +106,4 @@ If you have any questions about this Privacy Policy, please contact us at:
 ## お問い合わせ
 
 プライバシーポリシーに関するご質問は、以下までお問い合わせください：
-- GitHub: [https://github.com/shi-takahashi/pdf-mate](https://github.com/shi-takahashi/pdf-mate)
+- fdks487351@yahoo.co.jp
