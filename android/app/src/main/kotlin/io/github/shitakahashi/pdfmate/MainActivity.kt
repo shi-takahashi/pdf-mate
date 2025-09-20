@@ -1,4 +1,4 @@
-package com.example.pdf_mate
+package io.github.shitakahashi.pdfmate
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine

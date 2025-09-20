@@ -14,7 +14,9 @@
       "Bash(dart:*)",
       "Bash(python3:*)",
       "Bash(pip3 install:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
