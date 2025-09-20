@@ -9,7 +9,12 @@
       "Bash(q)",
       "Bash(killall:*)",
       "Bash(flutter:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(dart:*)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }
