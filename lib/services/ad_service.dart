@@ -6,6 +6,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdService {
   static const bool _isDebug = kDebugMode;
+  static const bool _hideAdsForScreenshots = false; // スクリーンショット用
+
+  // スクリーンショット用の広告非表示フラグ
+  static bool get hideAdsForScreenshots => _hideAdsForScreenshots;
 
   // テスト用広告ID
   static const String _testBannerAdUnitIdAndroid = 'ca-app-pub-3940256099942544/6300978111';
@@ -40,7 +44,7 @@ class AdService {
 
   static Future<void> initialize() async {
     await MobileAds.instance.initialize();
-    
+
     // リクエスト設定（テスト用デバイスID設定）
     if (_isDebug) {
       final requestConfiguration = RequestConfiguration(

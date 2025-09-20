@@ -42,6 +42,11 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // スクリーンショット用に広告を非表示
+    if (AdService.hideAdsForScreenshots) {
+      return const SizedBox.shrink();
+    }
+    
     if (!_isAdLoaded || _bannerAd == null) {
       return const SizedBox(height: 50); // バナー広告の高さ分のスペースを確保
     }
